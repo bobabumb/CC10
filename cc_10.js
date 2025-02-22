@@ -19,3 +19,20 @@ class Product {
  console.log(prod1.getDetails()); // "product: laptop, ID: 101, price: $1200, stock: 10"
  prod1.updateStock(3);
  console.log(prod1.getDetails()); // "product: laptop, ID: 101, price: $1200, stock: 7"
+
+ // task 2 creating an order class
+ class Order {
+    constructor (orderId, product, quantity) {
+        this.orderId = orderId;
+        this.product = product;
+        this.quantity = quantity;
+        this.product.updateStock(quantity);
+    }
+    getOrderDetails() {
+        const totalPrice = this.product.price * this.quantity
+        return `order ID: ${this.orderId}, product: ${this.product.name}, quantity: ${this.quantity} total price: $${totalPrice}`;
+    }
+ }
+ const order1 = new Order(501, prod1, 2);
+ console.log(order1.getOrderDetails()); // expected output: "order ID: 501, product laptop, quantity: 2, total price: $2400"
+ console.log(prod1.getDetails()); // expected output: "product: laptop, order ID: 101, price: $1200, stock: 8" (reduced stock)
