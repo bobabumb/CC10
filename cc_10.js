@@ -13,7 +13,7 @@ class Product {
         if (this.stock - quantity >= 0) {
             this.stock -= quantity; 
         } else {
-            console.error(`error: not enough stock for ${this.name}, ID: ${this.id}, price: $${this.price}, stock: ${this.stock}`);
+            console.error(`error: not enough stock for ${this.name}, ID: ${this.id}, price: $${this.price}, stock: ${this.stock}`); 
         } // ensures that stock does not go below zero
     }
  }
@@ -34,8 +34,8 @@ class Product {
  // task 3 creating an inventory class
  class Inventory {
     constructor() {
-        this.products = [];
-        this.orders = [];
+        this.products = []; // set up empty product array
+        this.orders = []; // task 4 add orders array in inventory class
     }
     addProduct(product) {
         if (product instanceof Product) {
@@ -52,7 +52,7 @@ class Product {
         }
     }
     // task 4 - implementing order managment 
-    placeOrder(orderId, product, quantity) {
+    placeOrder(orderId, product, quantity) { // add method placeOrder 
         if (product.stock >= quantity) {
             let order = new Order(orderId, product, quantity);
             this.orders.push(order); 
@@ -61,7 +61,7 @@ class Product {
             console.log(`stock unavailable! stock of ${product.name} is currently ${product.stock}`);
         }
     }
-    listOrders() {
+    listOrders() { // add method listOrder()
         if (this.orders.length === 0) {
             console.log("no orders placed yet");
     } else {
@@ -70,9 +70,9 @@ class Product {
 }
     // task 5 - implemeting product restock
     restockProduct(productId, quantity) {
-        const product = this.products.find(product => product.id === productId);
+        const product = this.products.find(product => product.id === productId); // finding products based on productID
         if (product) {
-            product.stock += quantity;
+            product.stock += quantity; // increase product stock 
             console.log(`restocked: product: ${product.name}, new stock: ${product.stock}`);
         } else {
             console.error(`product with ID ${productId} not found`);
@@ -80,18 +80,30 @@ class Product {
         }
       }
    }
+// test case 1
 const prod1 = new Product("laptop", 101, 1200, 10);
-console.log(prod1.getDetails());
+console.log(prod1.getDetails()); // expected output: "product: laptop, ID: 101, price: $1200, stock: 10"
 prod1.updateStock(3);
-console.log(prod1.getDetails());
+console.log(prod1.getDetails()); // expected output: "product: laptop, ID: 101, price: $1200, stock: 7"
+
+// test case 2
 const order1 = new Order (501, prod1, 2);
-console.log(order1.getOrderDetails()); 
-console.log(prod1.getDetails());
+console.log(order1.getOrderDetails()); // expected output: "order ID: 501, product: laptop, quantity: 2, total price: $2400"
+console.log(prod1.getDetails()); // expected output: "product: laptop, ID: 101, price: $1200, stock: 5 (stock reduced)"
+
+// test case 3
 const inventory = new Inventory();
 inventory.addProduct(prod1);
 inventory.listProducts();
+// expected output: "product: laptop, ID: 101, price: $1200, stock: 5"
+
+// test case 4 console log
 inventory.placeOrder(601, prod1, 2);
 inventory.listOrders();
-console.log(prod1.getDetails());
+console.log(prod1.getDetails()); 
+// expected output: "producta: laptop, ID: 101, price: $1200, stock: 3"
+
+// test case 5 console log
 inventory.restockProduct(101, 5);
-console.log(prod1.getDetails());
+console.log(prod1.getDetails()); 
+// expected output: "product: laptop, ID: 101, price, $1200, stock 8"
