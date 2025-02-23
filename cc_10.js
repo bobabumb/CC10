@@ -63,10 +63,18 @@ class Product {
     listOrders() {
         this.orders.forEach(order => console.log(order.getOrderDetails()));
     }
+    restockProduct(productId, quantity) {
+        let product = this.listProducts.find(product => product.id === productId);
+        if (product) {
+            product.stock += quantity;
+        }
+    }
  }
 const inventory = new Inventory();
 inventory.addProduct(prod1);
 inventory.listProducts();
 inventory.placeOrder(601, prod1, 2);
 inventory.listOrders();
+console.log(prod1.getDetails());
+inventory.restockProduct(101, 5);
 console.log(prod1.getDetails());
