@@ -32,24 +32,41 @@ class Product {
         const totalPrice = this.product.price * this.quantity
         return `order ID: ${this.orderId}, product: ${this.product.name}, quantity: ${this.quantity} total price: $${totalPrice}`;
     }
- }
+}
  const order1 = new Order(501, prod1, 2); 
  console.log(order1.getOrderDetails()); // expected output: "order ID: 501, product laptop, quantity: 2, total price: $2400"
  console.log(prod1.getDetails()); // expected output: "product: laptop, order ID: 101, price: $1200, stock: 5" (reduced stock)
 
  // task 3 creating an inventory class
  class Inventory {
-    products = []; 
+    constructor() {
+        this.product = [];
+    }
     addProduct(product) {
-        if (product instanceof Product) this.products.push(product);
-        else console.error("invalid product.");
+        if (product instanceof Product) {
+            this.product.push(product);
+        } else {
+            console.error("error: invalid product");
+        }
     }
     listProducts() {
-        this.products.length
-        ? this.products.forEach(p => console.log(p.getDetails()))
-        : console.log("no products in inventory");
+        return this.product.forEach(product => console.log(product.getDetails()));
+    };
+    placeOrder(orderId, product, quantity) {
+        if (product.stock >= quantity) {
+            let order = new Order(orderId, product, quantity);
+            this.orders.push(order); 
+        } else { 
+            return `no stock available! stock of ${product.name} is currently ${product.stock}`;
+        }
+    }
+    listOrders() {
+        this.orders.forEach(order => console.log(order.getOrderDetails()));
     }
  }
- const inventory = new Inventory();
- inventory.addProduct(new Product(101, "laptop", 1200, 5));
- inventory.listProducts();
+const inventory = new Inventory();
+inventory.addProduct(prod1);
+inventory.listProducts();
+inventory.placeOrder(601, prod1, 2);
+inventory.listOrders();
+console.log(prod1.getDetails());
