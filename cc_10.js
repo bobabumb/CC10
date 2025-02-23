@@ -33,6 +33,23 @@ class Product {
         return `order ID: ${this.orderId}, product: ${this.product.name}, quantity: ${this.quantity} total price: $${totalPrice}`;
     }
  }
- const order1 = new Order(501, prod1, 2);
+ const order1 = new Order(501, prod1, 2); 
  console.log(order1.getOrderDetails()); // expected output: "order ID: 501, product laptop, quantity: 2, total price: $2400"
- console.log(prod1.getDetails()); // expected output: "product: laptop, order ID: 101, price: $1200, stock: 8" (reduced stock)
+ console.log(prod1.getDetails()); // expected output: "product: laptop, order ID: 101, price: $1200, stock: 5" (reduced stock)
+
+ // task 3 creating an inventory class
+ class Inventory {
+    products = []; 
+    addProduct(product) {
+        if (product instanceof Product) this.products.push(product);
+        else console.error("invalid product.");
+    }
+    listProducts() {
+        this.products.length
+        ? this.products.forEach(p => console.log(p.getDetails()))
+        : console.log("no products in inventory");
+    }
+ }
+ const inventory = new Inventory();
+ inventory.addProduct(new Product(101, "laptop", 1200, 5));
+ inventory.listProducts();
